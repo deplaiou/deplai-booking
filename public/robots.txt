@@ -1,0 +1,55 @@
+# The booking page is public and meant to be read — by search engines and by AI
+# crawlers alike. The AI agents are listed by name because some of them
+# (Google-Extended, Applebot-Extended) only honour a rule addressed to them.
+# The owner view at /admin is not for anyone but the owner.
+
+User-agent: *
+Allow: /
+Disallow: /admin
+
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-User
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /admin
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+
+# A plain-language summary for language models lives at /llms.txt
+Sitemap: https://demo.deplai.app/sitemap.xml

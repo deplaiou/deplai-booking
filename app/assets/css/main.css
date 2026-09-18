@@ -1,0 +1,257 @@
+/*
+ * Deplai booking demo — design system.
+ *
+ * Same bones as deplai.eu (ink, Archivo, 10px radii, the sticky header and the
+ * two-column footer) with one deliberate difference: the accent is amber instead
+ * of the green used on the live site, so it reads at a glance as a demo of the
+ * product rather than the product itself.
+ */
+:root {
+  --ink: #1C2B45;
+  --ink-soft: #4A5A75;
+  --bg: #FAFBFC;
+  --line: #E3E8EF;
+
+  /* Amber 700 — 5:1 on white, so it is safe for button labels and small text. */
+  --accent: #B45309;
+  --accent-strong: #92400E;
+  /* Amber 500/100 — decoration and tinted panels only, never small text. */
+  --accent-line: #F59E0B;
+  --accent-soft: #FEF3C7;
+
+  --danger: #B42318;
+  --radius: 10px;
+  --maxw: 1080px;
+  /* The booking flow itself stays a narrow, left-aligned column inside that width. */
+  --colw: 860px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Archivo', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+  font-size: 17px;
+  /* Nothing here is meant to scroll sideways; this keeps a stray long word honest. */
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+.col { max-width: var(--colw); }
+
+/* ---------- Demo banner ---------- */
+/* Hazard tape: the fastest way to say "this is a sandbox" without words. */
+.demo-tape {
+  height: 6px;
+  background: repeating-linear-gradient(135deg, var(--accent-line) 0 10px, var(--ink) 10px 20px);
+}
+.demo-banner {
+  background: var(--ink);
+  color: #fff;
+  font-size: .88rem;
+  padding: 12px 0;
+}
+.demo-inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.demo-badge {
+  background: var(--accent-line);
+  color: #3B2100;
+  font-weight: 800;
+  font-size: .72rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  flex: none;
+}
+.demo-text { color: #B8C4D8; flex: 1 1 240px; min-width: 0; }
+.demo-link { color: #fff; font-weight: 600; }
+
+/* ---------- Header ---------- */
+.site-head {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(250, 251, 252, .92); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.head-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.logo { font-weight: 800; font-size: 1.25rem; text-decoration: none; letter-spacing: -.02em; }
+.logo .dot { color: var(--accent); }
+/* Stays visible after the banner scrolls away — the header is sticky, the banner is not. */
+.demo-pill {
+  font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-soft);
+  border: 1px solid #FCD34D; border-radius: 999px; padding: 3px 9px; white-space: nowrap;
+}
+
+/* ---------- Language dropdown ---------- */
+.lang-dd { position: relative; }
+.lang-btn {
+  display: flex; align-items: center; gap: 8px;
+  font-family: inherit; font-size: .85rem; font-weight: 600; color: var(--ink);
+  background: #fff; border: 1.5px solid var(--line); border-radius: 8px;
+  padding: 7px 11px; cursor: pointer;
+}
+.lang-btn:hover { border-color: var(--ink-soft); }
+.lang-btn .chev-s { transition: transform .15s; color: var(--ink-soft); }
+.lang-dd.open .lang-btn .chev-s { transform: rotate(180deg); }
+.flag { width: 20px; height: 14px; border-radius: 2.5px; display: block; flex: none; box-shadow: 0 0 0 1px rgba(28, 43, 69, .12); }
+.lang-menu {
+  position: absolute; top: calc(100% + 6px); right: 0; min-width: 150px;
+  background: #fff; border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 12px 28px -12px rgba(28, 43, 69, .3);
+  padding: 6px; display: none; z-index: 60;
+}
+.lang-dd.open .lang-menu { display: block; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block; background: var(--ink); color: #fff;
+  padding: 11px 22px; border-radius: var(--radius);
+  font-weight: 600; font-size: .95rem; text-decoration: none;
+  border: none; cursor: pointer; font-family: inherit;
+}
+.btn:hover:not(:disabled) { background: #28395c; }
+.btn:disabled { opacity: .6; cursor: not-allowed; }
+.btn-accent { background: var(--accent); }
+.btn-accent:hover:not(:disabled) { background: var(--accent-strong); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+.btn-ghost:hover { background: #fff; border-color: var(--ink-soft); }
+.btn-small { padding: 8px 16px; font-size: .88rem; }
+
+/* ---------- Page head ---------- */
+main { padding: 56px 0 76px; }
+h1 {
+  font-size: clamp(2rem, 4.4vw, 2.85rem);
+  font-weight: 800; letter-spacing: -.03em; line-height: 1.12;
+  max-width: 18ch;
+}
+.lead { margin-top: 20px; font-size: 1.15rem; color: var(--ink-soft); max-width: 48ch; }
+.notes { margin-top: 26px; display: flex; gap: 22px; flex-wrap: wrap; font-size: .9rem; color: var(--ink-soft); }
+.notes span { display: flex; align-items: center; gap: 7px; }
+.tick { width: 16px; height: 16px; flex: none; color: var(--accent); }
+
+/* Numbered steps, the same treatment as "how it works" on deplai.eu. */
+.step-head { margin: 48px 0 18px; display: flex; align-items: center; gap: 12px; }
+.step-head .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 50%; flex: none;
+  background: var(--ink); color: #fff; font-size: .85rem; font-weight: 700;
+}
+.step-head h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -.01em; }
+
+/* ---------- Slots ---------- */
+.day { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px; }
+.day-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+.day-weekday { font-weight: 700; text-transform: capitalize; }
+.day-date { color: var(--ink-soft); font-size: .9rem; }
+/* A grid rather than wrapped flex, so the last row lines up with the ones above it. */
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+.slot {
+  font-family: inherit; font-size: .95rem; font-weight: 600;
+  background: #fff; color: var(--ink);
+  border: 1.5px solid var(--line); border-radius: 8px;
+  padding: 9px 8px; cursor: pointer;
+}
+.slot:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.slot[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.slot:disabled { color: #A6B1C2; background: var(--bg); cursor: not-allowed; text-decoration: line-through; }
+.status-line { color: var(--ink-soft); font-size: .95rem; padding: 12px 0; }
+.status-line.error { color: var(--danger); font-weight: 600; }
+
+/* ---------- Selected slot summary ---------- */
+.selected {
+  background: var(--accent-soft); border: 1.5px solid var(--accent-line); border-radius: var(--radius);
+  padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.selected-label { font-size: .82rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+.selected-value { font-size: 1.1rem; font-weight: 700; }
+
+/* ---------- Form ---------- */
+.form-grid { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field.full { grid-column: 1 / -1; }
+label { font-weight: 600; font-size: .92rem; }
+label small { font-weight: 400; color: var(--ink-soft); }
+input[type=text], input[type=email], textarea, select {
+  font-family: inherit; font-size: .95rem; color: var(--ink);
+  background: #fff; border: 1.5px solid var(--line); border-radius: 8px;
+  padding: 12px 14px; width: 100%;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: none; }
+input.invalid, textarea.invalid, select.invalid { border-color: var(--danger); }
+textarea { resize: vertical; min-height: 92px; }
+.radio-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.radio-row input { position: absolute; opacity: 0; pointer-events: none; }
+.radio-row label {
+  border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 16px;
+  font-weight: 500; font-size: .92rem; cursor: pointer; background: #fff;
+}
+.radio-row input:checked + label { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+.radio-row input:focus-visible + label { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 6px; }
+.actions p { font-size: .85rem; color: var(--ink-soft); max-width: 44ch; }
+.form-error { grid-column: 1 / -1; color: var(--danger); font-weight: 600; font-size: .92rem; }
+
+/* ---------- Success ---------- */
+.success {
+  background: #fff; border: 1px solid var(--accent-line); border-radius: var(--radius);
+  padding: 34px 36px; box-shadow: 0 24px 48px -24px rgba(28, 43, 69, .25);
+}
+.success h2 { color: var(--accent); font-size: 1.4rem; font-weight: 800; letter-spacing: -.02em; }
+.success p { margin-top: 8px; color: var(--ink-soft); max-width: 52ch; }
+.success dl { margin: 22px 0 24px; display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; font-size: .95rem; }
+.success dt { color: var(--ink-soft); }
+.success dd { font-weight: 600; }
+/* Only the weekday needs it — Estonian topic labels are not title case. */
+.success dd.capitalize, .selected-value { text-transform: capitalize; }
+
+/* What the demo does *not* do, said plainly where the promise would otherwise sit. */
+.demo-note {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 8px;
+  padding: 12px 14px; margin-bottom: 24px; font-size: .88rem; color: #3B2100;
+}
+.demo-note b { font-weight: 700; }
+
+/* ---------- Admin ---------- */
+.table-wrap {
+  overflow-x: auto; margin-top: 20px;
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+}
+table { border-collapse: collapse; width: 100%; font-size: .92rem; background: #fff; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 700; background: var(--bg); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td.nowrap { white-space: nowrap; }
+
+/* ---------- Footer ---------- */
+footer { padding: 44px 0 56px; color: var(--ink-soft); font-size: .88rem; }
+.foot-inner { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+footer a { color: var(--ink-soft); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 720px) {
+  .wrap { padding: 0 20px; }
+  main { padding: 36px 0 56px; }
+  h1 { max-width: none; }
+  .lead { font-size: 1.05rem; }
+  .notes { gap: 10px 20px; }
+  .step-head { margin: 36px 0 14px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .day { padding: 16px; }
+  /* Three per row on a phone: bigger tap targets than the desktop density. */
+  .slot-grid { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); }
+  .success { padding: 24px 22px; }
+  .actions { gap: 12px; }
+}

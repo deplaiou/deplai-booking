@@ -1,0 +1,70 @@
+{
+  "meta_title": "Broneeri Deplai konsultatsioon",
+  "meta_description": "Vali sobiv aeg 20-minutiliseks vestluseks: vaatame koos üle, kas ja kuidas saame sinu AI-ga tehtud rakenduse internetti panna.",
+
+  "demo_pill": "Demo",
+  "demo_badge": "Näidisrakendus",
+  "demo_text": "See on päris töötav broneerimissüsteem, mis on ehitatud AI-ga ja jookseb Deplai serveris. Broneeri julgelt — demoandmed kustutatakse igal öösel.",
+  "demo_built_with": "Vaata, kuidas saad oma rakenduse samamoodi üles",
+
+  "hero_title": "Broneeri tasuta konsultatsioon",
+  "hero_lead": "20 minutit videokõnet või telefonis. Vaatame sinu rakenduse üle ja ütlen ausalt, kas ja kuidas saame selle internetti panna — ning mis see maksaks.",
+  "hero_note_free": "Tasuta ja ei kohusta millekski",
+  "hero_note_time": "20 minutit",
+  "hero_note_tz": "Kellaajad Eesti aja järgi",
+
+  "step_time": "Vali aeg",
+  "step_details": "Sinu andmed",
+
+  "loading_slots": "Laen vabu aegu…",
+  "no_slots": "Praegu pole vabu aegu. Kirjuta otse aadressile hello{'@'}deplai.eu.",
+  "slots_error": "Aegade laadimine ebaõnnestus. Proovi lehte värskendada.",
+  "slot_taken_label": "Broneeritud",
+  "selected_time": "Valitud aeg",
+  "change_time": "Muuda aega",
+
+  "form_name": "Sinu nimi",
+  "form_email": "E-post",
+  "form_topic": "Millest räägime?",
+  "form_notes": "Lisainfo",
+  "form_notes_hint": "— nt link rakendusele või mis sind kõige rohkem huvitab",
+  "form_notes_placeholder": "Nt: tegin Claude'iga broneerimisäpi, aga ei saa seda internetti…",
+  "form_submit": "Broneeri aeg",
+  "form_sending": "Broneerin…",
+  "form_privacy": "Kasutame su andmeid ainult selle kohtumise korraldamiseks.",
+
+  "topic_deploy": "Rakenduse ülespanek",
+  "topic_quote": "Hinnapakkumine",
+  "topic_migration": "Kolimine teisest teenusest",
+  "topic_other": "Muu",
+
+  "error_validation": "Palun kontrolli märgitud välju.",
+  "error_slot_taken": "Keegi jõudis selle aja enne sind ära broneerida. Vali palun uus aeg.",
+  "error_slot_invalid": "See aeg ei ole enam saadaval. Vali palun uus aeg.",
+  "error_rate_limited": "Liiga palju katseid. Proovi mõne minuti pärast uuesti.",
+  "error_server_error": "Midagi läks valesti. Proovi uuesti või kirjuta hello{'@'}deplai.eu.",
+
+  "success_title": "Aeg on broneeritud",
+  "success_lead": "Saadan sulle kinnituse ja kõne lingi e-postiga. Kui aeg ei sobi enam, vasta lihtsalt sellele kirjale.",
+  "success_reference": "Broneeringu number",
+  "success_when": "Millal",
+  "success_topic": "Teema",
+  "success_demo_note": "See on näidisrakendus: päris kinnituskirja välja ei saadeta ja broneering kustutatakse öösel. Päris aja kokkuleppimiseks kirjuta hello{'@'}deplai.eu.",
+  "success_new": "Broneeri veel üks aeg",
+
+  "admin_title": "Broneeringud",
+  "admin_key_missing": "Lisa aadressile ?key=… et broneeringuid näha.",
+  "admin_unauthorized": "Vale võti.",
+  "admin_empty": "Broneeringuid veel ei ole.",
+  "admin_col_when": "Millal",
+  "admin_col_who": "Kes",
+  "admin_col_topic": "Teema",
+  "admin_col_notes": "Lisainfo",
+  "admin_col_created": "Broneeritud",
+
+  "foot_tag": "Inimene, kes hoiab sinu AI-ga tehtud rakenduse töös.",
+  "foot_terms": "Tingimused",
+  "foot_privacy": "Privaatsus",
+  "footer_back": "deplai.eu",
+  "footer_note": "näidisrakendus, ehitatud AI-ga"
+}

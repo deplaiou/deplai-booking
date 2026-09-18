@@ -1,0 +1,70 @@
+{
+  "meta_title": "Book a Deplai consultation",
+  "meta_description": "Pick a time for a 20-minute call: we look at your AI-built app together and I tell you honestly whether and how we can put it online.",
+
+  "demo_pill": "Demo",
+  "demo_badge": "Demo app",
+  "demo_text": "This is a real, working booking system built with AI and running on a Deplai server. Feel free to book — demo data is wiped every night.",
+  "demo_built_with": "See how to get your own app online",
+
+  "hero_title": "Book a free consultation",
+  "hero_lead": "20 minutes on a video call or the phone. We look at your app and I tell you honestly whether and how we can put it online — and what it would cost.",
+  "hero_note_free": "Free, no commitment",
+  "hero_note_time": "20 minutes",
+  "hero_note_tz": "Times in Estonian time",
+
+  "step_time": "Pick a time",
+  "step_details": "Your details",
+
+  "loading_slots": "Loading available times…",
+  "no_slots": "No free times right now. Email hello{'@'}deplai.eu instead.",
+  "slots_error": "Could not load the times. Please refresh the page.",
+  "slot_taken_label": "Booked",
+  "selected_time": "Selected time",
+  "change_time": "Change time",
+
+  "form_name": "Your name",
+  "form_email": "Email",
+  "form_topic": "What should we talk about?",
+  "form_notes": "Anything else",
+  "form_notes_hint": "— e.g. a link to your app, or what you're most unsure about",
+  "form_notes_placeholder": "E.g.: I built a booking app with Claude but can't get it online…",
+  "form_submit": "Book this time",
+  "form_sending": "Booking…",
+  "form_privacy": "We use your details only to arrange this meeting.",
+
+  "topic_deploy": "Getting an app online",
+  "topic_quote": "A price quote",
+  "topic_migration": "Moving from another service",
+  "topic_other": "Something else",
+
+  "error_validation": "Please check the highlighted fields.",
+  "error_slot_taken": "Someone booked that time just before you. Please pick another one.",
+  "error_slot_invalid": "That time is no longer available. Please pick another one.",
+  "error_rate_limited": "Too many attempts. Please try again in a few minutes.",
+  "error_server_error": "Something went wrong. Try again or email hello{'@'}deplai.eu.",
+
+  "success_title": "Your time is booked",
+  "success_lead": "I'll email you a confirmation and the call link. If the time stops working for you, just reply to that email.",
+  "success_reference": "Booking reference",
+  "success_when": "When",
+  "success_topic": "Topic",
+  "success_demo_note": "This is a demo app: no real confirmation email goes out and the booking is deleted overnight. To arrange a real meeting, email hello{'@'}deplai.eu.",
+  "success_new": "Book another time",
+
+  "admin_title": "Bookings",
+  "admin_key_missing": "Add ?key=… to the URL to see bookings.",
+  "admin_unauthorized": "Wrong key.",
+  "admin_empty": "No bookings yet.",
+  "admin_col_when": "When",
+  "admin_col_who": "Who",
+  "admin_col_topic": "Topic",
+  "admin_col_notes": "Notes",
+  "admin_col_created": "Booked at",
+
+  "foot_tag": "The person who keeps your AI-built app running.",
+  "foot_terms": "Terms",
+  "foot_privacy": "Privacy",
+  "footer_back": "deplai.eu",
+  "footer_note": "demo app, built with AI"
+}

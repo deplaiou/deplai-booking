@@ -1,0 +1,43 @@
+# Deplai booking demo
+
+> A real, working meeting-booking app at https://demo.deplai.app — pick a 30-minute
+> slot, leave your details, get a confirmation on screen. It exists to show what
+> Deplai (https://deplai.eu) puts online and keeps running: an app of the kind an AI
+> tool writes for a small business, deployed on a real address, in Estonian and
+> English. Bookings made here are real but demo data is deleted every night.
+
+## What this app is
+- A booking page for a free 20-minute consultation with Deplai about getting an AI-built app online
+- Also a live demonstration: the same app a hairdresser, coach or repair shop would use to take bookings
+- Built with AI tooling, deployed and maintained by Deplai on a server in the European Union
+- Source code: https://github.com/deplaiou/deplai-booking
+
+## What a visitor can do
+1. Pick a free slot — weekdays, 09:00–15:00 Estonian time (Europe/Tallinn), 30 minutes, up to 10 working days ahead, minimum 2 hours' notice
+2. Fill in name, email, the topic of the call and optional notes
+3. Get a booking reference on screen; Deplai follows up by email
+
+## What it does not do
+- It does not send an automatic confirmation email; the booking reference is shown on the page
+- It does not take payments and asks for no payment details
+- In demo mode every booking is deleted nightly at 03:00 UTC, so nothing is kept
+
+## How it is built
+- Nuxt 4 (Vue 3) with server-side rendering, so every page is readable without JavaScript
+- Nitro server routes for the API; SQLite (better-sqlite3) as the only datastore — one file, no database server
+- Double booking is prevented by a UNIQUE constraint on the slot start time, not by application logic
+- Posted times are validated against the generated slot list, so a handcrafted time is rejected
+- Two languages from one codebase via @nuxtjs/i18n: Estonian at "/", English at "/en"
+- Runs as a single container; 0.5 CPU and 256 MB is enough
+
+## Pages
+- https://demo.deplai.app/ — booking page (Estonian)
+- https://demo.deplai.app/en — booking page (English)
+
+## About Deplai
+- Deplai puts AI-built web apps online and stays responsible for keeping them running, in Estonian or English
+- Setup 149 € once per app; hosting from 19 €/month (simple sites) or 39 €/month (apps with a database)
+- More: https://deplai.eu and https://deplai.eu/llms.txt
+
+## Contact
+- hello@deplai.eu
