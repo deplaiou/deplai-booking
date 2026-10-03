@@ -2,7 +2,7 @@
   "meta_title": "Book a Deplai consultation",
   "meta_description": "Pick a time for a 20-minute call: we look at your AI-built app together and I tell you honestly whether and how we can put it online.",
   "meta_title_demo": "Booking app demo · Deplai",
-  "meta_description_demo": "A working booking app demo, put online by Deplai. Try it freely: nothing booked here is real. To talk to us, email hello{'@'}deplai.eu.",
+  "meta_description_demo": "A working booking app demo, put online by Deplai. Try it freely: nothing booked here is real. To talk to us, email {email}.",
 
   "demo_pill": "Demo",
   "demo_badge": "Demo app",
@@ -31,7 +31,7 @@
   "fact_hosting": "Deplai, servers in the EU",
   "contact_h": "Want to talk for real?",
   "contact_p": "Email us and we'll agree on a time by email.",
-  "contact_cta": "Email hello{'@'}deplai.eu",
+  "contact_cta": "Email {email}",
   "contact_cta_short": "Email us",
   "mail_subject": "Getting my app online",
 
@@ -39,7 +39,7 @@
   "step_details": "Your details",
 
   "loading_slots": "Loading available times…",
-  "no_slots": "No free times right now. Email hello{'@'}deplai.eu instead.",
+  "no_slots": "No free times right now. Email {email} instead.",
   "slots_error": "Could not load the times. Please refresh the page.",
   "slot_taken_label": "Booked",
   "day_full": "Fully booked",
@@ -67,7 +67,7 @@
   "error_slot_taken": "Someone booked that time just before you. Please pick another one.",
   "error_slot_invalid": "That time is no longer available. Please pick another one.",
   "error_rate_limited": "Too many attempts. Please try again in a few minutes.",
-  "error_server_error": "Something went wrong. Try again or email hello{'@'}deplai.eu.",
+  "error_server_error": "Something went wrong. Try again or email {email}.",
 
   "success_title": "Your time is booked",
   "success_title_demo": "Demo booking made",
@@ -93,6 +93,5 @@
   "foot_tag": "The person who keeps your AI-built app running.",
   "foot_terms": "Terms",
   "foot_privacy": "Privacy",
-  "footer_back": "deplai.eu",
   "footer_note": "Demo app, built with AI."
 }

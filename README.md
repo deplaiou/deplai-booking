@@ -19,11 +19,12 @@ server/
   api/bookings.post.ts    create a booking (rate limited, validated)
   api/admin/bookings.get.ts  owner list, guarded by a key
   routes/sitemap.xml.get.ts  two URLs, one per language, with hreflang
+  routes/robots.txt, llms.txt  served from assets/ with this deployment's addresses filled in
   tasks/demo/reset.ts     nightly wipe of demo data (03:00 UTC)
-  utils/                  db.ts (SQLite), slots.ts (times, DST), validation.ts, rate-limit.ts
+  utils/                  db.ts (SQLite), slots.ts (times, DST), validation.ts, rate-limit.ts, textTemplate.ts
 shared/types/booking.ts   types shared by server and client, plus the guards that narrow to them
 i18n/locales/             et.json, en.json — every visible string
-public/                   favicon, robots.txt, llms.txt
+public/                   favicon
 ```
 
 Types are the contract between the two halves: `BookingTopic` and `Locale` are unions, not
@@ -64,8 +65,8 @@ The point of a public demo is that people and models can find it and describe it
 
 | File | What it does |
 |---|---|
-| `public/robots.txt` | Allows everything except `/admin`, naming the AI crawlers that only honour a rule addressed to them |
-| `public/llms.txt` | Plain-language summary: what the app is, what it does, how it is built |
+| `server/assets/robots.txt` | Allows everything except `/admin`, naming the AI crawlers that only honour a rule addressed to them |
+| `server/assets/llms.txt` | Plain-language summary: what the app is, what it does, how it is built |
 | `server/routes/sitemap.xml.get.ts` | `/sitemap.xml` with both language URLs and hreflang |
 | `app/pages/index.vue` | schema.org `WebPage` + `ReserveAction` JSON-LD |
 
@@ -82,7 +83,8 @@ npm run typecheck
 ```
 
 The database is created automatically at `./data/booking.db`.
-Owner view: <http://localhost:3000/admin?key=change-me>
+Owner view: <http://localhost:3000/admin?key=change-me>. That key is a development
+default only: a production build without `NUXT_ADMIN_KEY` keeps `/admin` closed.
 
 ## Deploy to Coolify
 
@@ -100,6 +102,8 @@ runtime; without the prefix the build-time defaults win):
 NUXT_DATABASE_PATH=/data/booking.db
 NUXT_ADMIN_KEY=<long random string>
 NUXT_PUBLIC_SITE_URL=https://demo.deplai.app
+NUXT_PUBLIC_MAIN_SITE_URL=https://deplai.eu
+NUXT_PUBLIC_CONTACT_EMAIL=hello@deplai.eu
 NUXT_PUBLIC_DEMO_MODE=true
 NUXT_RESET_ENABLED=true
 ```
@@ -114,7 +118,7 @@ Resource limits: 0.5 CPU / 256 MB is plenty.
 | Meeting times, length, lead time | `server/utils/slots.ts` (`SLOT_TIMES`, `WORKING_DAYS_AHEAD`, `MIN_LEAD_TIME_HOURS`) |
 | Topics in the form | `BOOKING_TOPICS` in `shared/types/booking.ts` + `topic_*` keys in both locales |
 | Colours and layout | `app/assets/css/main.css` (`--accent*` is the amber demo accent) |
-| What crawlers and models are told | `public/robots.txt`, `public/llms.txt`, the JSON-LD in `app/pages/index.vue` |
+| What crawlers and models are told | `server/assets/robots.txt`, `server/assets/llms.txt`, the JSON-LD in `app/pages/index.vue` |
 | Reset schedule | `nitro.scheduledTasks` in `nuxt.config.ts` |
 
 ## Not included (on purpose)

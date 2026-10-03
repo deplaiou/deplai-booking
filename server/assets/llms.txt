@@ -1,10 +1,10 @@
 # Deplai booking demo
 
-> A working demo of a meeting-booking app at https://demo.deplai.app. It exists to show
-> what Deplai (https://deplai.eu) puts online and keeps running: an app of the kind an AI
+> A working demo of a meeting-booking app at {{siteUrl}}. It exists to show
+> what Deplai ({{mainSiteUrl}}) puts online and keeps running: an app of the kind an AI
 > tool writes for a small business, deployed on a real address, in Estonian and English.
 > Nothing booked here is real: no meeting takes place, no email is sent, and every
-> booking is deleted overnight. To actually talk to Deplai, email hello@deplai.eu.
+> booking is deleted overnight. To actually talk to Deplai, email {{contactEmail}}.
 
 ## What this app is
 - A live demonstration: the kind of app a hairdresser, coach or repair shop would use to take bookings
@@ -31,13 +31,13 @@
 - Runs as a single container; 0.5 CPU and 256 MB is enough
 
 ## Pages
-- https://demo.deplai.app/ — booking page (Estonian)
-- https://demo.deplai.app/en — booking page (English)
+- {{siteUrl}}/ — booking page (Estonian)
+- {{siteUrl}}/en — booking page (English)
 
 ## About Deplai
 - Deplai puts AI-built web apps online and stays responsible for keeping them running, in Estonian or English
 - Setup 149 € once per app; hosting from 19 €/month (simple sites) or 39 €/month (apps with a database)
-- More: https://deplai.eu and https://deplai.eu/llms.txt
+- More: {{mainSiteUrl}} and {{mainSiteUrl}}/llms.txt
 
 ## Contact
-- hello@deplai.eu
+- {{contactEmail}}

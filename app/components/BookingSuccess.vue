@@ -11,7 +11,9 @@ defineEmits<{ again: [] }>()
 
 const { t } = useI18n()
 const config = useRuntimeConfig()
-const mailHref = computed(() => `mailto:hello@deplai.eu?subject=${encodeURIComponent(t('mail_subject'))}`)
+const { mailHref } = useSiteLinks()
+/** UIDs are unique per host: the reference plus this site's own host name. */
+const uidHost = new URL(String(config.public.siteUrl)).host
 
 const MS_PER_MINUTE = 60 * 1000
 
@@ -35,7 +37,7 @@ const icsHref = computed(() => {
     'VERSION:2.0',
     'PRODID:-//Deplai//Booking//EN',
     'BEGIN:VEVENT',
-    `UID:${props.booking.reference}@deplai.app`,
+    `UID:${props.booking.reference}@${uidHost}`,
     `DTSTAMP:${icsStamp(new Date())}`,
     `DTSTART:${icsStamp(start)}`,
     `DTEND:${icsStamp(end)}`,

@@ -13,10 +13,15 @@ export default defineNuxtConfig({
   // defaults used during development.
   runtimeConfig: {
     databasePath: './data/booking.db',
-    adminKey: 'change-me',
+    // Only development gets a default key; a production build without NUXT_ADMIN_KEY
+    // keeps /admin closed rather than open to "change-me".
+    adminKey: process.env.NODE_ENV === 'production' ? '' : 'change-me',
     resetEnabled: true,
     public: {
       siteUrl: 'https://demo.deplai.app',
+      // Deplai's own site and inbox, linked from the header, footer, copy and llms.txt.
+      mainSiteUrl: 'https://deplai.eu',
+      contactEmail: 'hello@deplai.eu',
       // Shown in the demo banner; set NUXT_PUBLIC_DEMO_MODE=false for real use.
       demoMode: true,
     },

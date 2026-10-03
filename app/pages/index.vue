@@ -9,6 +9,7 @@
  */
 const { t, locale } = useI18n()
 const config = useRuntimeConfig()
+const { email, mainSite, mailHref } = useSiteLinks()
 const demo = Boolean(config.public.demoMode)
 
 /** Demo copy lives under `<key>_demo`; real-use copy under the plain key. */
@@ -23,9 +24,9 @@ const {
 
 useSeoMeta({
   title: () => t(modeKey('meta_title')),
-  description: () => t(modeKey('meta_description')),
+  description: () => t(modeKey('meta_description'), { email }),
   ogTitle: () => t(modeKey('meta_title')),
-  ogDescription: () => t(modeKey('meta_description')),
+  ogDescription: () => t(modeKey('meta_description'), { email }),
   ogType: 'website',
 })
 
@@ -42,15 +43,15 @@ useHead({
       '@context': 'https://schema.org',
       '@type': 'WebPage',
       name: t(modeKey('meta_title')),
-      description: t(modeKey('meta_description')),
+      description: t(modeKey('meta_description'), { email }),
       inLanguage: locale.value === 'en' ? 'en-GB' : 'et-EE',
       url: locale.value === 'en' ? `${siteUrl}/en` : `${siteUrl}/`,
       isPartOf: { '@type': 'WebSite', name: 'Deplai booking demo', url: siteUrl },
       about: {
         '@type': 'Organization',
         name: 'Deplai',
-        url: 'https://deplai.eu',
-        email: 'hello@deplai.eu',
+        url: mainSite,
+        email,
         description: t('foot_tag'),
       },
       ...(demo ? {} : {
@@ -68,7 +69,6 @@ useHead({
 const FACTS = demo
   ? (['bookings', 'emails', 'built', 'hosting'] as const)
   : (['length', 'format', 'price', 'tz'] as const)
-const mailHref = computed(() => `mailto:hello@deplai.eu?subject=${encodeURIComponent(t('mail_subject'))}`)
 </script>
 
 <template>
@@ -89,7 +89,7 @@ const mailHref = computed(() => `mailto:hello@deplai.eu?subject=${encodeURICompo
     <section v-if="demo" class="contact">
       <h2>{{ t('contact_h') }}</h2>
       <p>{{ t('contact_p') }}</p>
-      <a class="btn btn-ghost" :href="mailHref">{{ t('contact_cta') }}</a>
+      <a class="btn btn-ghost" :href="mailHref">{{ t('contact_cta', { email }) }}</a>
     </section>
 
     <div class="panel">

@@ -1,12 +1,11 @@
 <script setup lang="ts">
 /**
  * Banner shown at the top of every page while the app runs in demo mode.
- * Explains that bookings are real but wiped nightly, and links back to deplai.eu.
+ * Explains that bookings are real but wiped nightly, and links back to the main site.
  */
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const config = useRuntimeConfig()
-
-const mainSite = computed(() => (locale.value === 'en' ? 'https://deplai.eu/en' : 'https://deplai.eu'))
+const { mainSiteLocalized: mainSite } = useSiteLinks()
 </script>
 
 <template>

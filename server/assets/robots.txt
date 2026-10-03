@@ -52,4 +52,4 @@ Allow: /
 Disallow: /admin
 
 # A plain-language summary for language models lives at /llms.txt
-Sitemap: https://demo.deplai.app/sitemap.xml
+Sitemap: {{siteUrl}}/sitemap.xml

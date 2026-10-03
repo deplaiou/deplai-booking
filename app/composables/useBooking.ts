@@ -16,6 +16,7 @@ import type {
 
 export async function useBooking() {
   const { t, locale } = useI18n()
+  const { email } = useSiteLinks()
 
   const { data, pending, error: slotsError, refresh } = await useFetch<SlotsResponse>('/api/slots', {
     query: { lang: locale },
@@ -70,7 +71,7 @@ export async function useBooking() {
       await refresh()
     } catch (requestError: unknown) {
       const { code, fields } = readErrorBody(requestError)
-      errorMessage.value = t(`error_${code}`)
+      errorMessage.value = t(`error_${code}`, { email })
       invalidFields.value = fields ?? []
       // The slot is gone: send the visitor back to the calendar with fresh data.
       if (code === 'slot_taken' || code === 'slot_invalid') {

@@ -17,6 +17,7 @@ const props = defineProps<{
 const emit = defineEmits<{ select: [slot: Slot] }>()
 
 const { t, locale } = useI18n()
+const { email } = useSiteLinks()
 
 const hasFree = (day: SlotDay): boolean => day.slots.some(slot => slot.available)
 const hasSlots = computed(() => props.days.some(hasFree))
@@ -50,7 +51,7 @@ function shortWeekday(dateIso: string): string {
       <div class="grid"><span v-for="i in 10" :key="i" /></div>
     </div>
     <p v-else-if="failed" class="status-line error">{{ t('slots_error') }}</p>
-    <p v-else-if="!hasSlots" class="status-line">{{ t('no_slots') }}</p>
+    <p v-else-if="!hasSlots" class="status-line">{{ t('no_slots', { email }) }}</p>
 
     <template v-else>
       <div class="days" role="group" :aria-label="t('step_time')">
