@@ -4,8 +4,8 @@ A real, working meeting-booking app: pick a 30-minute slot, leave your details, 
 confirmation. Estonian and English. Built to be both a **public demo** of what Deplai
 deploys and a **usable tool** for booking Deplai consultations.
 
-Deliberately small: one container, one SQLite file, no separate database server or API
-service. That is the point — a small app should not need heavy infrastructure.
+Deliberately small: one container and one table in a MySQL/MariaDB database, no separate
+API service. That is the point — a small app should not need heavy infrastructure.
 
 ```
 app/                  Nuxt pages and components
@@ -20,8 +20,8 @@ server/
   api/admin/bookings.get.ts  owner list, guarded by a key
   routes/sitemap.xml.get.ts  two URLs, one per language, with hreflang
   routes/robots.txt, llms.txt  served from assets/ with this deployment's addresses filled in
-  tasks/demo/reset.ts     nightly wipe of demo data (03:00 UTC)
-  utils/                  db.ts (SQLite), slots.ts (times, DST), validation.ts, rate-limit.ts, textTemplate.ts
+  tasks/demo/reset.ts     nightly archive of demo bookings (03:00 UTC)
+  utils/                  db.ts (MySQL/MariaDB), slots.ts (times, DST), validation.ts, rate-limit.ts, textTemplate.ts
 shared/types/booking.ts   types shared by server and client, plus the guards that narrow to them
 i18n/locales/             et.json, en.json — every visible string
 public/                   favicon
@@ -29,19 +29,23 @@ public/                   favicon
 
 Types are the contract between the two halves: `BookingTopic` and `Locale` are unions, not
 `string`, and the only places an unknown value becomes one of them are `validateBookingRequest`
-(request bodies) and `toAdminBooking` (rows SQLite hands back as plain text).
+(request bodies) and `toAdminBooking` (rows the database hands back as plain text).
 
 ## How it works
 
 - **Slots**: weekdays, 09:00–15:00 Estonian time, 30 minutes, 10 working days ahead,
   minimum 2 hours' notice. Times are computed in `Europe/Tallinn` and stored as UTC, so
   daylight saving is handled correctly.
-- **No double booking**: `UNIQUE(starts_at)` in SQLite. Two people submitting the same slot
-  at the same moment cannot both succeed — the loser gets a translated "pick another time".
+- **No double booking**: a UNIQUE key on `active_starts_at`, a generated column that equals
+  `starts_at` while the booking is live and NULL once it is archived. Two people submitting the
+  same slot at the same moment cannot both succeed — the loser gets a translated "pick another
+  time" — while archived rows never block a slot.
+- **Nothing is deleted**: the nightly reset sets `archived_at`, which frees the slot. The owner
+  view hides archived bookings behind a "Show archived" toggle.
 - **Tamper-proof**: a posted time is checked against the generated slot list, so a
   handcrafted "Sunday 03:00" is rejected.
 - **Demo mode**: a banner above the header, an amber accent, a `Demo` marker in the sticky header, a note on the
-  confirmation saying no email is sent and the booking is wiped, and a nightly reset. Set
+  confirmation saying no email is sent and the calendar is cleared, and a nightly reset. Set
   `NUXT_PUBLIC_DEMO_MODE=false` and `NUXT_RESET_ENABLED=false` to use it as a real booking tool.
 
 ## Design
@@ -75,31 +79,42 @@ Canonical and hreflang tags come from `useLocaleHead` in `app/app.vue`; they fol
 
 ## Development
 
+Create a database once, in your local MySQL/MariaDB:
+
+```sql
+CREATE DATABASE deplai_booking CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'deplai_booking'@'localhost' IDENTIFIED BY 'choose-a-dev-password';
+GRANT ALL PRIVILEGES ON deplai_booking.* TO 'deplai_booking'@'localhost';
+```
+
 ```bash
-nvm use              # Node 22, from .nvmrc
+cp .env.example .env   # set NUXT_DATABASE_URL=mysql://deplai_booking:<password>@localhost:3306/deplai_booking
+nvm use                # Node 22, from .nvmrc
 npm install
-npm run dev          # http://localhost:3000  (/en for English)
+npm run dev            # http://localhost:3000  (/en for English)
 npm run typecheck
 ```
 
-The database is created automatically at `./data/booking.db`.
+The `bookings` table is created on the first request.
 Owner view: <http://localhost:3000/admin?key=change-me>. That key is a development
 default only: a production build without `NUXT_ADMIN_KEY` keeps `/admin` closed.
 
 ## Deploy to Coolify
 
+Uses the MariaDB resource deplai.eu already runs on the same server, with a database and user of
+its own (same SQL as above, with `'%'` as the host so the app container can connect).
+
 New Resource → repository → Build Pack **Dockerfile**, port `3000`.
 
 | Setting | Value |
 |---|---|
-| Persistent volume | `/data` (without it, bookings disappear on every redeploy) |
 | Domain | `https://demo.deplai.app` |
 
 Environment variables (note the `NUXT_` prefix — Nuxt maps these onto `runtimeConfig` at
 runtime; without the prefix the build-time defaults win):
 
 ```
-NUXT_DATABASE_PATH=/data/booking.db
+NUXT_DATABASE_URL=mysql://deplai_booking:<password>@<mariadb container uuid>:3306/deplai_booking
 NUXT_ADMIN_KEY=<long random string>
 NUXT_PUBLIC_SITE_URL=https://demo.deplai.app
 NUXT_PUBLIC_MAIN_SITE_URL=https://deplai.eu
@@ -108,7 +123,7 @@ NUXT_PUBLIC_DEMO_MODE=true
 NUXT_RESET_ENABLED=true
 ```
 
-Resource limits: 0.5 CPU / 256 MB is plenty.
+Resource limits: 0.5 CPU / 256 MB is plenty for the app.
 
 ## Changing things
 

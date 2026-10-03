@@ -9,10 +9,11 @@ export default defineNuxtConfig({
   ssr: true,
 
   // Runtime config values are overridden in production by NUXT_-prefixed environment
-  // variables (NUXT_DATABASE_PATH, NUXT_ADMIN_KEY, ...). The values below are only
+  // variables (NUXT_DATABASE_URL, NUXT_ADMIN_KEY, ...). The values below are only
   // defaults used during development.
   runtimeConfig: {
-    databasePath: './data/booking.db',
+    // mysql://user:password@host:3306/database. No default: credentials live in .env only.
+    databaseUrl: '',
     // Only development gets a default key; a production build without NUXT_ADMIN_KEY
     // keeps /admin closed rather than open to "change-me".
     adminKey: process.env.NODE_ENV === 'production' ? '' : 'change-me',

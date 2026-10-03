@@ -74,6 +74,8 @@ export interface AdminBooking extends BookingConfirmation {
   notes: string | null
   language: Locale
   createdAt: string
+  /** When the nightly reset archived it; null while the booking is live. */
+  archivedAt: string | null
 }
 
 /** Error codes the API can return, so the UI can show a translated message. */

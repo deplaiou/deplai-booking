@@ -2,12 +2,12 @@
  * POST /api/bookings
  *
  * Creates a booking for one slot. Public, rate-limited per IP.
- * The unique index on `starts_at` is what actually prevents double booking:
- * two people submitting the same slot at the same moment cannot both win.
+ * The unique key on live bookings' start time is what actually prevents double
+ * booking: two people submitting the same slot at the same moment cannot both win.
  */
 import { describeSlot, isValidSlot } from '../utils/slots'
 import { generateReference, validateBookingRequest } from '../utils/validation'
-import { insertBooking, useDatabase } from '../utils/db'
+import { insertBooking, SlotTakenError, useDatabase } from '../utils/db'
 import { isRateLimited } from '../utils/rate-limit'
 import type { ApiErrorBody, BookingConfirmation } from '#shared/types/booking'
 
@@ -54,10 +54,10 @@ export default defineEventHandler(async (event): Promise<BookingConfirmation> =>
   }
 
   const reference = generateReference()
-  const db = useDatabase(config.databasePath)
+  const db = await useDatabase(config.databaseUrl)
 
   try {
-    insertBooking(db, {
+    await insertBooking(db, {
       reference,
       starts_at: booking.startsAt,
       name: booking.name,
@@ -69,8 +69,8 @@ export default defineEventHandler(async (event): Promise<BookingConfirmation> =>
       client_ip: clientIp,
     })
   } catch (error) {
-    // UNIQUE(starts_at) violation means somebody booked this slot a moment earlier.
-    if (String((error as { code?: string }).code ?? '').includes('SQLITE_CONSTRAINT')) {
+    // Somebody booked this slot a moment earlier.
+    if (error instanceof SlotTakenError) {
       fail(HTTP_CONFLICT, { code: 'slot_taken' })
     }
     throw error

@@ -296,6 +296,14 @@ th { font-weight: 550; color: var(--ink-soft); background: var(--surface-2); whi
 tr:last-child td { border-bottom: none; }
 td.nowrap { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .admin .status-line { margin-top: 16px; }
+.admin-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+.admin-toggle { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-soft); font-size: .93rem; cursor: pointer; }
+.admin-toggle input { accent-color: var(--accent); }
+tr.archived td { color: var(--ink-soft); }
+.archived-pill {
+  display: inline-block; margin-left: 6px; font-size: .75rem; font-weight: 600;
+  border: 1px solid currentColor; border-radius: 6px; padding: 0 6px;
+}
 
 /* ---------- Footer ---------- */
 footer { border-top: 1px solid var(--line); padding: 40px 0 56px; color: var(--ink-soft); font-size: .9rem; }

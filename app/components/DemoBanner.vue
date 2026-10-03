@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Banner shown at the top of every page while the app runs in demo mode.
- * Explains that bookings are real but wiped nightly, and links back to the main site.
+ * Explains that bookings are real but cleared nightly, and links back to the main site.
  */
 const { t } = useI18n()
 const config = useRuntimeConfig()

@@ -1,7 +1,7 @@
 /**
- * GET /api/admin/bookings?key=...
+ * GET /api/admin/bookings?key=...&archived=1
  *
- * Owner view of all bookings. Protected by a shared secret passed as a query
+ * Owner view of the bookings; `archived=1` adds the ones the nightly reset archived. Protected by a shared secret passed as a query
  * parameter — enough for a demo, and the page it powers is not linked anywhere.
  */
 import { describeSlot } from '../../utils/slots'
@@ -12,7 +12,7 @@ import type { BookingRow } from '../../utils/db'
 
 const HTTP_UNAUTHORIZED = 401
 
-/** Map a stored row to the API shape, narrowing the columns SQLite keeps as plain text. */
+/** Map a stored row to the API shape, narrowing the columns the database keeps as plain text. */
 function toAdminBooking(row: BookingRow): AdminBooking {
   const { date, time } = describeSlot(row.starts_at)
   return {
@@ -28,17 +28,20 @@ function toAdminBooking(row: BookingRow): AdminBooking {
     notes: row.notes,
     language: toLocale(row.language),
     createdAt: row.created_at,
+    archivedAt: row.archived_at,
   }
 }
 
-export default defineEventHandler((event): { bookings: AdminBooking[] } => {
+export default defineEventHandler(async (event): Promise<{ bookings: AdminBooking[] }> => {
   const config = useRuntimeConfig(event)
-  const key = String(getQuery(event).key ?? '')
+  const query = getQuery(event)
+  const key = String(query.key ?? '')
 
   if (!config.adminKey || key !== config.adminKey) {
     throw createError({ statusCode: HTTP_UNAUTHORIZED, statusMessage: 'unauthorized' })
   }
 
-  const db = useDatabase(config.databasePath)
-  return { bookings: listBookings(db).map(toAdminBooking) }
+  const db = await useDatabase(config.databaseUrl)
+  const rows = await listBookings(db, { includeArchived: query.archived === '1' })
+  return { bookings: rows.map(toAdminBooking) }
 })
