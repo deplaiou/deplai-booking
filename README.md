@@ -75,6 +75,7 @@ Canonical and hreflang tags come from `useLocaleHead` in `app/app.vue`; they fol
 ## Development
 
 ```bash
+nvm use              # Node 22, from .nvmrc
 npm install
 npm run dev          # http://localhost:3000  (/en for English)
 npm run typecheck
