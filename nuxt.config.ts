@@ -65,8 +65,8 @@ export default defineNuxtConfig({
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#F6F7F9', media: '(prefers-color-scheme: light)' },
-        { name: 'theme-color', content: '#0D131E', media: '(prefers-color-scheme: dark)' },
+        // Light only: the booking demo does not follow the system dark mode.
+        { name: 'theme-color', content: '#F6F7F9' },
       ],
     },
   },

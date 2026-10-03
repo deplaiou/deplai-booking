@@ -50,9 +50,10 @@ Types are the contract between the two halves: `BookingTopic` and `Locale` are u
 
 ## Design
 
-The same design system as [deplai.eu](https://deplai.eu): the same tokens (light and dark mode
-via `prefers-color-scheme`), Geist + Geist Mono self-hosted from npm, 8px/14px radii, the sticky
-header and the "d." monogram. One deliberate difference: the accent follows the mode. In demo
+The same design system as [deplai.eu](https://deplai.eu): the same light-mode tokens, Geist +
+Geist Mono self-hosted from npm, 8px/14px radii, the sticky header and the "d." monogram. Two
+deliberate differences. The page is always light, even when the visitor's system is in dark
+mode, so it does not read as a copy of deplai.eu. And the accent follows the mode: in demo
 mode (`html[data-mode="demo"]`, set in `app.vue`) it is amber (`#B45309`, amber 700, 4.5:1 on
 white); with `NUXT_PUBLIC_DEMO_MODE=false` it becomes Deplai green. A visitor who knows
 deplai.eu sees at a glance that the demo is a sandbox. The favicon's dot is amber for the same

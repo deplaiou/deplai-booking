@@ -1,13 +1,14 @@
 /*
  * Deplai booking: design system.
  *
- * Same tokens, type and radii as deplai.eu, so the two read as one product. The one
- * deliberate difference is the accent: green when the app runs for real, amber in demo
- * mode (`html[data-mode="demo"]`, set in app.vue), so a visitor who knows deplai.eu sees
- * at a glance that this is a sandbox.
+ * Same tokens, type and radii as deplai.eu, so the two read as one product. Two
+ * deliberate differences: the page is always light, whatever the visitor's system
+ * setting, and the accent is green when the app runs for real but amber in demo mode
+ * (`html[data-mode="demo"]`, set in app.vue), so a visitor who knows deplai.eu sees at
+ * a glance that this is a sandbox.
  *
  * Rules:
- * - Colours only through tokens; dark mode swaps tokens, never components.
+ * - Colours only through tokens, never written into components.
  * - One accent per mode. It marks the primary action and the selected slot, nothing else.
  * - Radius scale: --r-sm (8px) for buttons, inputs, slots; --r-lg (14px) for panels.
  */
@@ -46,35 +47,6 @@
   --accent-hover: #92400E;
   --accent-soft: #FDF3E1;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0D131E;
-    --surface: #141C2A;
-    --surface-2: #1A2333;
-    --ink: #E7EBF1;
-    --ink-soft: #A9B3C3;
-    --ink-mute: #8B96A8;
-    --line: #243044;
-    --line-strong: #33415A;
-    --on-ink: #0D131E;
-    --ink-hover: #FFFFFF;
-    --danger: #F97066;
-    --danger-soft: #2A1618;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 16px 40px -20px rgba(0, 0, 0, .6);
-    --accent: #3CC48F;
-    --accent-hover: #5AD3A3;
-    --accent-soft: #13302A;
-    --on-accent: #06140E;
-    color-scheme: dark;
-  }
-  :root[data-mode="demo"] {
-    --accent: #F5A524;
-    --accent-hover: #F8B84E;
-    --accent-soft: #33240E;
-    --on-accent: #1F1300;
-  }
-}
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
