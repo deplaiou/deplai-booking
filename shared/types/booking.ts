@@ -7,6 +7,12 @@
 export const LOCALES = ['et', 'en'] as const
 export type Locale = (typeof LOCALES)[number]
 
+/**
+ * How long the call itself lasts, in minutes. Slots start every 30 minutes; the gap is
+ * deliberate breathing room. Used for the calendar file and must match the `fact_length` copy.
+ */
+export const MEETING_MINUTES = 20
+
 /** Meeting topics offered in the form. Labels come from i18n (`topic_*`). */
 export const BOOKING_TOPICS = ['deploy', 'quote', 'migration', 'other'] as const
 export type BookingTopic = (typeof BOOKING_TOPICS)[number]

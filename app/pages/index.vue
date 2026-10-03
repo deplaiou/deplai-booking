@@ -1,10 +1,18 @@
 <script setup lang="ts">
 /**
- * Booking page: pick a slot, fill in details, get a confirmation.
+ * Booking page: what the page is on the left, the flow on the right
+ * (day and time, then details, then the confirmation).
  * All of the flow's state lives in `useBooking`; this file is the markup.
+ *
+ * In demo mode the copy says plainly that nothing booked here is real, and points
+ * anyone who actually wants to talk to email instead.
  */
 const { t, locale } = useI18n()
 const config = useRuntimeConfig()
+const demo = Boolean(config.public.demoMode)
+
+/** Demo copy lives under `<key>_demo`; real-use copy under the plain key. */
+const modeKey = (key: string): string => (demo ? `${key}_demo` : key)
 
 const {
   days, pending, slotsFailed,
@@ -14,16 +22,17 @@ const {
 } = await useBooking()
 
 useSeoMeta({
-  title: () => t('meta_title'),
-  description: () => t('meta_description'),
-  ogTitle: () => t('meta_title'),
-  ogDescription: () => t('meta_description'),
+  title: () => t(modeKey('meta_title')),
+  description: () => t(modeKey('meta_description')),
+  ogTitle: () => t(modeKey('meta_title')),
+  ogDescription: () => t(modeKey('meta_description')),
   ogType: 'website',
 })
 
 /**
  * Structured data describing what this page offers, so search engines and AI
- * crawlers can state plainly what it is without parsing the layout.
+ * crawlers can state plainly what it is without parsing the layout. The demo offers
+ * no reservation anyone could rely on, so it does not claim a ReserveAction.
  */
 const siteUrl = String(config.public.siteUrl).replace(/\/$/, '')
 useHead({
@@ -32,8 +41,8 @@ useHead({
     innerHTML: computed(() => JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: t('meta_title'),
-      description: t('meta_description'),
+      name: t(modeKey('meta_title')),
+      description: t(modeKey('meta_description')),
       inLanguage: locale.value === 'en' ? 'en-GB' : 'et-EE',
       url: locale.value === 'en' ? `${siteUrl}/en` : `${siteUrl}/`,
       isPartOf: { '@type': 'WebSite', name: 'Deplai booking demo', url: siteUrl },
@@ -42,76 +51,83 @@ useHead({
         name: 'Deplai',
         url: 'https://deplai.eu',
         email: 'hello@deplai.eu',
-        description: t('meta_description'),
+        description: t('foot_tag'),
       },
-      potentialAction: {
-        '@type': 'ReserveAction',
-        name: t('hero_title'),
-        target: { '@type': 'EntryPoint', urlTemplate: locale.value === 'en' ? `${siteUrl}/en` : `${siteUrl}/` },
-        result: { '@type': 'Reservation', name: t('hero_title') },
-      },
+      ...(demo ? {} : {
+        potentialAction: {
+          '@type': 'ReserveAction',
+          name: t('hero_title'),
+          target: { '@type': 'EntryPoint', urlTemplate: locale.value === 'en' ? `${siteUrl}/en` : `${siteUrl}/` },
+          result: { '@type': 'Reservation', name: t('hero_title') },
+        },
+      }),
     })),
   }],
 })
 
-const HERO_NOTES = ['hero_note_free', 'hero_note_time', 'hero_note_tz'] as const
+const FACTS = demo
+  ? (['bookings', 'emails', 'built', 'hosting'] as const)
+  : (['length', 'format', 'price', 'tz'] as const)
+const mailHref = computed(() => `mailto:hello@deplai.eu?subject=${encodeURIComponent(t('mail_subject'))}`)
 </script>
 
 <template>
-  <div>
-    <BookingSuccess
-      v-if="confirmation"
-      :booking="confirmation"
-      :weekday="selectedWeekday"
-      @again="startAgain"
-    />
+  <div class="booking">
+    <section class="intro">
+      <h1>{{ t(modeKey('hero_title')) }}</h1>
+      <p class="lead">{{ t(modeKey('hero_lead')) }}</p>
+      <dl class="facts">
+        <template v-for="key in FACTS" :key="key">
+          <dt>{{ t(`fact_${key}_label`) }}</dt>
+          <dd>{{ t(`fact_${key}`) }}</dd>
+        </template>
+      </dl>
+    </section>
 
-    <template v-else>
-      <h1>{{ t('hero_title') }}</h1>
-      <p class="lead">{{ t('hero_lead') }}</p>
-      <div class="notes">
-        <span v-for="key in HERO_NOTES" :key="key">
-          <svg class="tick" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>{{ t(key) }}
-        </span>
-      </div>
+    <!-- Its own grid item: beside the intro on desktop, below the booking panel on a phone,
+         so the demo itself is the first thing a phone visitor reaches. -->
+    <section v-if="demo" class="contact">
+      <h2>{{ t('contact_h') }}</h2>
+      <p>{{ t('contact_p') }}</p>
+      <a class="btn btn-ghost" :href="mailHref">{{ t('contact_cta') }}</a>
+    </section>
 
-      <div class="step-head">
-        <b class="num">1</b>
-        <h2>{{ t('step_time') }}</h2>
-      </div>
-
-      <div v-if="selectedSlot" class="selected">
-        <div>
-          <div class="selected-label">{{ t('selected_time') }}</div>
-          <div class="selected-value">{{ selectedWeekday }}, {{ selectedSlot.date }} {{ selectedSlot.time }}</div>
-        </div>
-        <button class="btn btn-ghost btn-small" type="button" @click="clearSelection">{{ t('change_time') }}</button>
-      </div>
-
-      <SlotPicker
-        v-else
-        :days="days"
-        :pending="pending"
-        :failed="slotsFailed"
-        :selected="null"
-        @select="select"
+    <div class="panel">
+      <BookingSuccess
+        v-if="confirmation"
+        :booking="confirmation"
+        :weekday="selectedWeekday"
+        @again="startAgain"
       />
 
-      <template v-if="selectedSlot">
-        <div class="step-head">
-          <b class="num">2</b>
+      <template v-else>
+        <section v-if="selectedSlot" class="panel-section selected">
+          <div>
+            <div class="selected-label">{{ t('selected_time') }}</div>
+            <div class="selected-value">
+              <span class="wd">{{ selectedWeekday }}</span>, {{ selectedSlot.date.split('-').reverse().join('.') }}
+              <span class="time">{{ selectedSlot.time }}</span>
+            </div>
+          </div>
+          <button class="btn btn-ghost btn-small" type="button" @click="clearSelection">{{ t('change_time') }}</button>
+        </section>
+
+        <section v-else class="panel-section">
+          <h2>{{ t('step_time') }}</h2>
+          <SlotPicker :days="days" :pending="pending" :failed="slotsFailed" @select="select" />
+          <p v-if="errorMessage" class="status-line error" role="alert">{{ errorMessage }}</p>
+        </section>
+
+        <section v-if="selectedSlot" class="panel-section">
           <h2>{{ t('step_details') }}</h2>
-        </div>
-        <BookingForm
-          :pending="submitPending"
-          :error-message="errorMessage"
-          :invalid-fields="invalidFields"
-          @submit="submit"
-        />
+          <BookingForm
+            :pending="submitPending"
+            :error-message="errorMessage"
+            :invalid-fields="invalidFields"
+            @submit="submit"
+          />
+        </section>
       </template>
-      <p v-else-if="errorMessage" class="status-line error">{{ errorMessage }}</p>
-    </template>
+    </div>
   </div>
 </template>

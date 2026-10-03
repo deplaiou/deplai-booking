@@ -6,11 +6,12 @@
  * the host name always follows NUXT_PUBLIC_SITE_URL.
  */
 const PUBLIC_PATHS = ['/', '/en'] as const
+/** Bump by hand when the page content changes. */
+const CONTENT_LASTMOD = '2026-10-03'
 
 export default defineEventHandler((event): string => {
   const { public: publicConfig } = useRuntimeConfig(event)
   const siteUrl = String(publicConfig.siteUrl).replace(/\/$/, '')
-  const lastModified = new Date().toISOString().slice(0, 10)
 
   const urls = PUBLIC_PATHS.map((path) => {
     const alternates = PUBLIC_PATHS.map(
@@ -20,7 +21,7 @@ export default defineEventHandler((event): string => {
     return `  <url>
     <loc>${siteUrl}${path}</loc>
 ${alternates}
-    <lastmod>${lastModified}</lastmod>
+    <lastmod>${CONTENT_LASTMOD}</lastmod>
     <changefreq>weekly</changefreq>
   </url>`
   }).join('\n')

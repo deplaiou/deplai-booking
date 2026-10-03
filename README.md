@@ -39,18 +39,24 @@ Types are the contract between the two halves: `BookingTopic` and `Locale` are u
   at the same moment cannot both succeed — the loser gets a translated "pick another time".
 - **Tamper-proof**: a posted time is checked against the generated slot list, so a
   handcrafted "Sunday 03:00" is rejected.
-- **Demo mode**: hazard-tape banner, a `DEMO` marker in the sticky header, a note on the
+- **Demo mode**: a banner above the header, an amber accent, a `Demo` marker in the sticky header, a note on the
   confirmation saying no email is sent and the booking is wiped, and a nightly reset. Set
   `NUXT_PUBLIC_DEMO_MODE=false` and `NUXT_RESET_ENABLED=false` to use it as a real booking tool.
 
 ## Design
 
-The same design system as [deplai.eu](https://deplai.eu) — ink `#1C2B45`, Archivo, 10px radii,
-the sticky header and the two-column footer — with one deliberate difference: the accent is
-amber (`--accent: #B45309`, amber 700 so it clears 4.5:1 on white) where the live site uses
-green. A visitor who knows deplai.eu should see at a glance that this is a demo of the product,
-not the product. Everything else — the header, the footer, the numbered steps — is shared, so
-the two sites still read as one.
+The same design system as [deplai.eu](https://deplai.eu): the same tokens (light and dark mode
+via `prefers-color-scheme`), Geist + Geist Mono self-hosted from npm, 8px/14px radii, the sticky
+header and the "d." monogram. One deliberate difference: the accent follows the mode. In demo
+mode (`html[data-mode="demo"]`, set in `app.vue`) it is amber (`#B45309`, amber 700, 4.5:1 on
+white); with `NUXT_PUBLIC_DEMO_MODE=false` it becomes Deplai green. A visitor who knows
+deplai.eu sees at a glance that the demo is a sandbox. The favicon's dot is amber for the same
+reason; regenerate it in green if the app is switched to real use.
+
+The flow is two columns: what the meeting is (title, lead, facts) on the left, the booking panel
+on the right. One day at a time (a scrollable day strip, then that day's times) instead of every
+day stacked, so the times never push the form off screen. The confirmation offers an
+"add to calendar" `.ics` file built on the client from `MEETING_MINUTES`.
 
 ## Being found
 

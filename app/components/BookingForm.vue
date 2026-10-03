@@ -14,7 +14,11 @@ defineProps<{
 
 const emit = defineEmits<{ submit: [details: BookingDetails] }>()
 
+/** Same cap the server applies (server/utils/validation.ts), so nothing is cut off silently. */
+const NOTES_MAX_LENGTH = 1000
+
 const { t } = useI18n()
+const demo = Boolean(useRuntimeConfig().public.demoMode)
 
 const name = ref('')
 const email = ref('')
@@ -35,6 +39,8 @@ function onSubmit(event: Event): void {
 
 <template>
   <form class="form-grid" novalidate @submit.prevent="onSubmit">
+    <p v-if="demo" class="demo-note field full">{{ t('demo_form_note') }}</p>
+
     <div class="field">
       <label for="name">{{ t('form_name') }}</label>
       <input
@@ -51,28 +57,32 @@ function onSubmit(event: Event): void {
       >
     </div>
 
-    <div class="field full">
-      <label>{{ t('form_topic') }}</label>
+    <fieldset class="field full">
+      <legend class="field-label">{{ t('form_topic') }}</legend>
       <div class="radio-row">
         <template v-for="option in BOOKING_TOPICS" :key="option">
           <input :id="`topic-${option}`" v-model="topic" type="radio" name="topic" :value="option">
           <label :for="`topic-${option}`">{{ t(`topic_${option}`) }}</label>
         </template>
       </div>
-    </div>
+    </fieldset>
 
     <div class="field full">
-      <label for="notes">{{ t('form_notes') }} <small>{{ t('form_notes_hint') }}</small></label>
-      <textarea id="notes" v-model="notes" :placeholder="t('form_notes_placeholder')"></textarea>
+      <label for="notes">{{ t('form_notes') }}</label>
+      <p id="notes-hint" class="field-hint">{{ t('form_notes_hint') }}</p>
+      <textarea
+        id="notes" v-model="notes" :maxlength="NOTES_MAX_LENGTH"
+        :placeholder="t('form_notes_placeholder')" aria-describedby="notes-hint"
+      ></textarea>
     </div>
 
     <p v-if="errorMessage" class="form-error" role="alert">{{ errorMessage }}</p>
 
     <div class="actions">
       <button class="btn btn-accent" type="submit" :disabled="pending">
-        {{ pending ? t('form_sending') : t('form_submit') }}
+        {{ pending ? t('form_sending') : t(demo ? 'form_submit_demo' : 'form_submit') }}
       </button>
-      <p>{{ t('form_privacy') }}</p>
+      <p v-if="!demo">{{ t('form_privacy') }}</p>
     </div>
   </form>
 </template>

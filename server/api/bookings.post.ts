@@ -20,9 +20,17 @@ function fail(statusCode: number, body: ApiErrorBody): never {
   throw createError({ statusCode, data: body, statusMessage: body.code })
 }
 
-/** Best-effort client address, used only for rate limiting and abuse review. */
+/**
+ * Client address, used only for rate limiting and abuse review.
+ *
+ * Takes the rightmost X-Forwarded-For entry: the one Traefik appended itself. Everything to
+ * its left is whatever the client sent, so trusting the first entry would let anyone reset
+ * the rate limit by inventing a new address per request. Assumes exactly one proxy hop
+ * (Coolify's Traefik), the same assumption as PROXY_HOPS=1 on the deplai.eu API.
+ */
 function clientAddress(event: Parameters<typeof getRequestHeader>[0]): string {
-  return getRequestHeader(event, 'x-forwarded-for')?.split(',')[0]?.trim()
+  const forwarded = getRequestHeader(event, 'x-forwarded-for')?.split(',').map(part => part.trim()).filter(Boolean)
+  return forwarded?.at(-1)
     ?? event.node.req.socket.remoteAddress
     ?? 'unknown'
 }

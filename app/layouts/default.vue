@@ -4,9 +4,7 @@
     <SiteHeader />
     <main>
       <div class="wrap">
-        <div class="col">
-          <slot />
-        </div>
+        <slot />
       </div>
     </main>
     <SiteFooter />

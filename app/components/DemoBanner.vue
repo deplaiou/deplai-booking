@@ -10,14 +10,11 @@ const mainSite = computed(() => (locale.value === 'en' ? 'https://deplai.eu/en' 
 </script>
 
 <template>
-  <div v-if="config.public.demoMode">
-    <div class="demo-tape" aria-hidden="true" />
-    <div class="demo-banner">
-      <div class="wrap demo-inner">
-        <span class="demo-badge">{{ t('demo_badge') }}</span>
-        <span class="demo-text">{{ t('demo_text') }}</span>
-        <a class="demo-link" :href="mainSite" rel="noopener">{{ t('demo_built_with') }} →</a>
-      </div>
+  <div v-if="config.public.demoMode" class="demo-banner">
+    <div class="wrap demo-inner">
+      <span class="demo-badge">{{ t('demo_badge') }}</span>
+      <span class="demo-text">{{ t('demo_text') }}</span>
+      <a class="demo-link" :href="mainSite" rel="noopener">{{ t('demo_built_with') }}</a>
     </div>
   </div>
 </template>

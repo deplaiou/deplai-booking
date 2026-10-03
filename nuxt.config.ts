@@ -2,7 +2,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxtjs/i18n'],
-  css: ['~/assets/css/main.css'],
+  // Fonts are self-hosted from npm, the same family as deplai.eu: no third-party request.
+  css: ['@fontsource-variable/geist', '@fontsource-variable/geist-mono', '~/assets/css/main.css'],
 
   // Server-side rendering so the page is readable by search engines and AI crawlers.
   ssr: true,
@@ -32,6 +33,18 @@ export default defineNuxtConfig({
     baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://demo.deplai.app', // used for hreflang links
   },
 
+  // Same response headers as deplai.eu. HSTS comes from Traefik/Coolify.
+  routeRules: {
+    '/**': {
+      headers: {
+        'X-Frame-Options': 'DENY',
+        'X-Content-Type-Options': 'nosniff',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+      },
+    },
+  },
+
   nitro: {
     // Nightly cleanup of demo data (UTC).
     experimental: { tasks: true },
@@ -41,15 +54,13 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap' },
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#1C2B45' },
+        { name: 'theme-color', content: '#F6F7F9', media: '(prefers-color-scheme: light)' },
+        { name: 'theme-color', content: '#0D131E', media: '(prefers-color-scheme: dark)' },
       ],
     },
   },

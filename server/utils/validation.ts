@@ -35,7 +35,8 @@ export function validateBookingRequest(raw: unknown): ValidationResult {
   const text = (key: string, max: number): string => String(body[key] ?? '').trim().slice(0, max)
 
   const startsAt = String(body.startsAt ?? '').trim()
-  const name = text('name', NAME_MAX_LENGTH)
+  // Collapsed to one line so the name is safe to put in an email header once emails are sent.
+  const name = text('name', NAME_MAX_LENGTH).replace(/\s+/g, ' ')
   const email = text('email', EMAIL_MAX_LENGTH).toLowerCase()
   const topic = body.topic
   const notes = text('notes', NOTES_MAX_LENGTH)

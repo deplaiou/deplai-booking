@@ -1,21 +1,21 @@
 # Deplai booking demo
 
-> A real, working meeting-booking app at https://demo.deplai.app — pick a 30-minute
-> slot, leave your details, get a confirmation on screen. It exists to show what
-> Deplai (https://deplai.eu) puts online and keeps running: an app of the kind an AI
-> tool writes for a small business, deployed on a real address, in Estonian and
-> English. Bookings made here are real but demo data is deleted every night.
+> A working demo of a meeting-booking app at https://demo.deplai.app. It exists to show
+> what Deplai (https://deplai.eu) puts online and keeps running: an app of the kind an AI
+> tool writes for a small business, deployed on a real address, in Estonian and English.
+> Nothing booked here is real: no meeting takes place, no email is sent, and every
+> booking is deleted overnight. To actually talk to Deplai, email hello@deplai.eu.
 
 ## What this app is
-- A booking page for a free 20-minute consultation with Deplai about getting an AI-built app online
-- Also a live demonstration: the same app a hairdresser, coach or repair shop would use to take bookings
+- A live demonstration: the kind of app a hairdresser, coach or repair shop would use to take bookings
+- Modelled on booking a 20-minute call with Deplai, but it is a sandbox: real conversations are arranged by email
 - Built with AI tooling, deployed and maintained by Deplai on a server in the European Union
 - Source code: https://github.com/deplaiou/deplai-booking
 
 ## What a visitor can do
-1. Pick a free slot — weekdays, 09:00–15:00 Estonian time (Europe/Tallinn), 30 minutes, up to 10 working days ahead, minimum 2 hours' notice
+1. Pick a day, then a free time: weekdays, 09:00-15:00 Estonian time (Europe/Tallinn), slots every 30 minutes for a 20-minute call, up to 10 working days ahead, minimum 2 hours' notice
 2. Fill in name, email, the topic of the call and optional notes
-3. Get a booking reference on screen; Deplai follows up by email
+3. Get a booking reference on screen, plus a reminder that it was a demo and an email link for a real conversation
 
 ## What it does not do
 - It does not send an automatic confirmation email; the booking reference is shown on the page

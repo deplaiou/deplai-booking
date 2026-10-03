@@ -21,7 +21,7 @@ const bookings = computed(() => data.value?.bookings ?? [])
 </script>
 
 <template>
-  <div>
+  <div class="admin">
     <h1>{{ t('admin_title') }}</h1>
 
     <p v-if="!key" class="status-line">{{ t('admin_key_missing') }}</p>
@@ -48,7 +48,7 @@ const bookings = computed(() => data.value?.bookings ?? [])
               <a :href="`mailto:${item.email}`">{{ item.email }}</a>
             </td>
             <td class="nowrap">{{ t(`topic_${item.topic}`) }}</td>
-            <td>{{ item.notes || '—' }}</td>
+            <td>{{ item.notes }}</td>
             <td class="nowrap">{{ item.createdAt.slice(0, 16).replace('T', ' ') }}</td>
           </tr>
         </tbody>
